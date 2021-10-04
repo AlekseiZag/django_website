@@ -43,7 +43,7 @@ def tweet_delete_view(request, tweet_id):
         return Response({}, status=404)
     qs = qs.filter(user=request.user)
     if not qs.exists():
-        return Response({"message": "You cannot delete tweet"}, status=401)
+        return Response({"message": "You cannot delete tweet"}, status=403)
     obj = qs.first()
     obj.delete()
     return Response({"message": "Tweet removed"}, status=200)

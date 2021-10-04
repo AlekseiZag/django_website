@@ -13,9 +13,10 @@ User = get_user_model()
 class TweetTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(username='cde', password='1233454password')
+        self.user_2 = User.objects.create(username='cde-2', password='1233454password123')
         Tweet.objects.create(content='my first tweet', user=self.user)
         Tweet.objects.create(content='my second tweet', user=self.user)
-        Tweet.objects.create(content='my third tweet', user=self.user)
+        Tweet.objects.create(content='my third tweet', user=self.user_2)
         self.currentCount = Tweet.objects.all().count()
 
     def test_tweet_created(self):
@@ -73,4 +74,22 @@ class TweetTestCase(TestCase):
         client.force_login(self.user)
         response = client.post("/api/tweets/create/", data)
         self.assertEqual(response.status_code, 201)
+
+    def test_tweet_detail_api_view(self):
+        client = self.get_client()
+        response = client.get('/api/tweets/1/')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        _id = data.get('id')
+        self.assertEqual(_id, 1)
+
+    def test_tweet_delete_api_view(self):
+        client = self.get_client()
+        client.force_login(self.user)
+        response = client.delete('/api/tweets/1/delete/')
+        self.assertEqual(response.status_code, 200)
+        response = client.delete('/api/tweets/1/delete/')
+        self.assertEqual(response.status_code, 404)
+        response = client.delete('/api/tweets/3/delete/')
+        self.assertEqual(response.status_code, 403)
 
