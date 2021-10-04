@@ -10,7 +10,7 @@ __pycache__/
 local_settings.py
 db.sqlite3
 media
-
+landingpage/settings.py
 ### Linux ###
 *~
 
@@ -210,3 +210,4 @@ ENV/
 
 # mkdocs documentation
 /site
+tweets/migrations/*
