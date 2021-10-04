@@ -11,6 +11,7 @@ local_settings.py
 db.sqlite3
 media
 landingpage/settings.py
+tweets/migrations/*
 ### Linux ###
 *~
 
@@ -210,4 +211,3 @@ ENV/
 
 # mkdocs documentation
 /site
-tweets/migrations/*
